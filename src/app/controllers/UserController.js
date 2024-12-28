@@ -20,7 +20,7 @@ class UserController {
 
   async findById(req, res) {
     const id = req.params.id;
-    const user = await User.findById(id);
+    const user = await User.findById(id, { name: 1, age: 1 });
     res.json(user);
   }
 
