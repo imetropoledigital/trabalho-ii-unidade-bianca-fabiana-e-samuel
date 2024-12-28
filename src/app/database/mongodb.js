@@ -1,14 +1,13 @@
 import mongo from 'mongoose';
 
 const connectDB = async () =>{
-    try {
-        mongo.createConnection("mongodb://localhost:27017/dbnosql-mongo", {
-        serverSelectionTimeoutMS: 30000
-        });
-        console.log("Sucess connecting to MongoDB");
-    } catch (error) {
-        console.error('Error connecting to MongoDB: ', error.message);
-    }
+    // Conexão ao MongoDB
+    mongo.connect('mongodb://127.0.0.1:27017/dbnosql-mongo', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log('Conexão com MongoDB bem-sucedida!'))
+    .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
 };
 
 export default connectDB;
