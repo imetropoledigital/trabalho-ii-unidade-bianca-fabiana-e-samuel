@@ -1,6 +1,6 @@
 import express from 'express';
 import connectDB from './app/database/mongodb.js';
-import ROUTER from "./routes/routes.js";
+import router from './routes/routes.js';
 
 const app = express();
 
@@ -11,6 +11,6 @@ connectDB();
 app.use(express.json());
 
 // routes
-app.use(ROUTER)
+app.use(router);
 
 export default app;
