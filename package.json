@@ -1,0 +1,27 @@
+{
+  "name": "trabalho-ii-unidade-bianca-fabiana-e-samuel",
+  "version": "1.0.0",
+  "description": "[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/ori1I0wD)",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imetropoledigital/trabalho-ii-unidade-bianca-fabiana-e-samuel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imetropoledigital/trabalho-ii-unidade-bianca-fabiana-e-samuel/issues"
+  },
+  "homepage": "https://github.com/imetropoledigital/trabalho-ii-unidade-bianca-fabiana-e-samuel#readme",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.2"
+  }
+}
