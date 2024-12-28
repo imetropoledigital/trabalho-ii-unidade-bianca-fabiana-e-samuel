@@ -13,15 +13,18 @@ class UserController {
     }
   }
 
-  async findAll(_, res) {
-    const users = await User.find();
-    res.json(users);
+  async findAll(req, res) {
+    const { query, fields, limit, skip } = req.query;
+    const parsedQuery = query ? JSON.parse(query) : {};
+    const projection = fields ? fields.replaceAll(',', ' ') : '';
+    const users = await User.find(parsedQuery, projection).skip(skip).limit(limit);
+    res.send(users);
   }
 
   async findById(req, res) {
     const id = req.params.id;
-    const user = await User.findById(id, { name: 1, age: 1 });
-    res.json(user);
+    const user = await User.findById(id, { name: true, age: true, _id: true });
+    res.send(user);
   }
 
   async findByIdAndUpdate(req, res) {
@@ -31,7 +34,7 @@ class UserController {
     try {
       const item = await User.findByIdAndUpdate(id, data, { new: true, runValidators: true });
       if (!item) {
-        res.status(404).send({ error: 'User not found' });
+        res.status(404).send({ error: 'Usuário não encontrado' });
       }
       res.status(204).end();
     } catch (error) {
