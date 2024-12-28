@@ -3,9 +3,14 @@ import User from '../models/User.js';
 class UserController {
   async createUser(req, res) {
     const { name, age } = req.body;
-    const newUser = new User({ name, age });
-    await newUser.save();
-    res.json(newUser);
+
+    try {
+      const newUser = new User({ name, age });
+      await newUser.save();
+      res.status(201).end();
+    } catch (error) {
+      res.status(400).send({ error: error.message });
+    }
   }
 
   async findAll(_, res) {
@@ -20,11 +25,18 @@ class UserController {
   }
 
   async findByIdAndUpdate(req, res) {
-    const item = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!item) {
-      console.log('Usuario não encontrado!');
+    const id = req.params.id;
+    const data = req.body;
+
+    try {
+      const item = await User.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+      if (!item) {
+        res.status(404).send({ error: 'User not found' });
+      }
+      res.status(204).end();
+    } catch (error) {
+      res.status(400).send({ error: error.message });
     }
-    res.json(item);
   }
 }
 
