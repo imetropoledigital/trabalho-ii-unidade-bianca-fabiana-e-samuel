@@ -1,1 +1,45 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/ori1I0wD)
+# 🍃 API com MongoDB
+
+## 💻 Sobre o projeto
+
+API em Node.js e MongoDB desenvolvida para o trabalho da segunda unidade da disciplina de Banco de Dados NoSQL.
+
+---
+
+## ⚙ Funcionalidades
+
+- Criação de um usuário
+- Busca de todos os usuários com paginação e projeção
+- Busca por um usuário
+- Atualização de um usuário
+
+---
+
+## 🚀 Como executar o projeto
+
+Para executar o projeto, siga os seguintes passos:
+
+1. É preciso ter o Node.js instalado na sua máquina.
+2. No terminal:
+
+```bash
+# Clone este repositório
+$ git clone git@github.com:imetropoledigital/trabalho-ii-unidade-bianca-fabiana-e-samuel.git
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd trabalho-ii-unidade-bianca-fabiana-e-samuel
+
+# Instale as dependências
+$ npm ci
+
+# Execute a apicação
+$ npm start
+```
+
+---
+
+## 👥 Autores
+
+- Bianca Mirtes
+- Fabiana Pereira
+- Samuel Costa
