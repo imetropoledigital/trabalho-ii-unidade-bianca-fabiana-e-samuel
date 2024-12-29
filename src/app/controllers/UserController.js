@@ -14,17 +14,29 @@ class UserController {
   }
 
   async findAll(req, res) {
-    const { query, fields, limit, skip } = req.query;
-    const parsedQuery = query ? JSON.parse(query) : {};
-    const projection = fields ? fields.replaceAll(',', ' ') : '';
-    const users = await User.find(parsedQuery, projection).skip(skip).limit(limit);
-    res.send(users);
+    try {
+      const { query, fields, limit, skip } = req.query;
+      const parsedQuery = query ? JSON.parse(query) : {};
+      const projection = fields ? fields.replaceAll(',', ' ') : '';
+      const users = await User.find(parsedQuery, projection).skip(skip).limit(limit);
+      res.send(users);
+    } catch (error) {
+      res.status(400).send({ error: error.message });
+    }
   }
 
   async findById(req, res) {
-    const id = req.params.id;
-    const user = await User.findById(id, { name: true, age: true, _id: true });
-    res.send(user);
+    try {
+      const id = req.params.id;
+      const user = await User.findById(id, { name: true, age: true, _id: true });
+      if (user) {
+        res.status(200).send(user);
+      } else {
+        res.status(404).send({ error: 'Usuário não encontrado' });
+      }
+    } catch (error) {
+      res.status(400).send({ error: error.message });
+    }
   }
 
   async findByIdAndUpdate(req, res) {
@@ -32,11 +44,12 @@ class UserController {
     const data = req.body;
 
     try {
-      const item = await User.findByIdAndUpdate(id, data, { new: true, runValidators: true });
-      if (!item) {
+      const user = await User.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+      if (user) {
+        res.status(204).end();
+      } else {
         res.status(404).send({ error: 'Usuário não encontrado' });
       }
-      res.status(204).end();
     } catch (error) {
       res.status(400).send({ error: error.message });
     }
