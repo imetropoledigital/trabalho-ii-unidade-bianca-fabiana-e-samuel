@@ -15,9 +15,15 @@ class UserController {
 
   async findAll(req, res) {
     try {
-      const { query, fields, limit, skip } = req.query;
+      const { query, fields} = req.query;
+      
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 2;
+      const skip = ((page-1) * req.query.limit);
+
       const parsedQuery = query ? JSON.parse(query) : {};
       const projection = fields ? fields.replaceAll(',', ' ') : '';
+
       const users = await User.find(parsedQuery, projection).skip(skip).limit(limit);
       res.send(users);
     } catch (error) {
