@@ -1,4 +1,6 @@
-# 🍃 API com MongoDB
+<h1 align="center">
+  🍃 API com MongoDB
+</h1>
 
 ## 💻 Sobre o projeto
 
