@@ -45,8 +45,13 @@ Para testar a API, utilize o software de sua preferência, mas o passo a passo f
 ```
 localhost:3000/users
 ```
-Em Body > raw especifique o tipo como JSON.
-
+Em Body > raw especifique o tipo como JSON. Estrutura da entidade:
+```
+{
+    "name": "nome da pessoa",
+    "age: idade da pessoa
+}
+```
 2. PUT: para atualizar determinado item da coleção (utilizando o id)
 ```
 localhost:3000/users/67702883a36d6d88681a70df
