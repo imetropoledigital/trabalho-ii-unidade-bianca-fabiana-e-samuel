@@ -41,14 +41,13 @@ $ npm start
 
 Para testar a API, utilize o software de sua preferência, mas o passo a passo foi seguindo a estrutura do Postman.
 
-1. POST: para criar um novo usuario
+1. POST: para criar uma nova entidade
 ```
-localhost:3000/entities
+localhost:3000/users
 ```
-Em Body > raw especifique o tipo como JSON. Criea entidade que quiser seguindo essa estrutura:
+Em Body > raw especifique o tipo como JSON. Crie a entidade que quiser seguindo essa estrutura, nesse exemplo criamos a entidade "users":
 ```
 {
-  "entityName": "users",
   "data": {
     "name": "Bianca",
     "age": 20
@@ -57,27 +56,27 @@ Em Body > raw especifique o tipo como JSON. Criea entidade que quiser seguindo e
 ```
 2. PUT: para atualizar determinado item da coleção (utilizando o id)
 ```
-localhost:3000/entities/users/67702883a36d6d88681a70df
+localhost:3000/users/67702883a36d6d88681a70df
 ```
 
 3. GET: para listar todos os itens da coleção (com paginação)
 ```
-localhost:3000/entities/users?page=2&limit=4
+localhost:3000/users?page=2&limit=4
 ```
 
 4. GET: para listar por ID
 ```
-localhost:3000/entities/users/6770283646ed36a690e76e6a
+localhost:3000/users/6770283646ed36a690e76e6a
 ```
 
 5. GET: para listar utilizando o Query
 ```
-localhost:3000/entities/users?query={"name":"Bianca"}
+localhost:3000/users?query={"name":"Bianca"}
 ```
 
 6. GET: para listar todos os itens da coleção com projeção
 ```
-localhost:3000/entities/users?fields=name
+localhost:3000/users?fields=name
 ```
 
 ---
