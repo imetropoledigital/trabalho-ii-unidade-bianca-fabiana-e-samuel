@@ -6,6 +6,10 @@ class EntityController {
         return mongoose.model(entityName, new mongoose.Schema({}, { strict: false }), entityName);
     };
 
+    newModel(entityName, data){
+        return mongoose.model(entityName, new mongoose.Schema({}, { strict: false }));
+    }
+
     // Criar nova entidade na coleção especificada
     async createEntity (req, res){
         const { entityName, data } = req.body;
@@ -15,8 +19,7 @@ class EntityController {
         }
 
         try {
-            const Model = getCollection(entityName);
-            const newEntity = new Model(data);
+            const newEntity = newModel(entityName, data)
             await newEntity.save();
             res.status(201).json({ message: 'Entidade criada com sucesso', newEntity });
         } catch (error) {
