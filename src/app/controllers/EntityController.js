@@ -10,13 +10,14 @@ class EntityController {
         return mongoose.model(entityName, new mongoose.Schema({}, { strict: false }));
     }
 
-    // Criar nova entidade na coleção especificada
-    async createEntity (req, res){
-        const { entityName, data } = req.body;
+  createEntity = async (req, res) => {
+    try {
+      const { entityName } = req.params;
+      const data = req.body;
 
-        if (!entityName || !data) {
-            return res.status(400).json({ message: 'Nome da entidade e dados são obrigatórios' });
-        }
+      if (!entityName || !data) {
+        res.status(400).json({ message: 'Nome da entidade e dados são obrigatórios' });
+      }
 
         try {
             const newEntity = newModel(entityName, data)
@@ -27,66 +28,78 @@ class EntityController {
         }
     };
 
-    // Obter todas as entidades de uma coleção específica
-    async getEntities (req, res){
-        const { entityName } = req.params;
+  getEntities = async (req, res) => {
+    try {
+      const { entityName } = req.params;
+      const { query, fields } = req.query;
 
-        try {
-            const Model = getCollection(entityName);
-            const entities = await Model.find({});
-            res.status(200).json(entities);
-        } catch (error) {
-            res.status(500).json({ message: 'Erro ao buscar entidades', error });
-        }
-    };
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+      const skip = (page - 1) * req.query.limit;
 
-    async findById(req, res) {
-        try {
-          const { entityName, id } = req.params;
-          const Model = getCollection(entityName);
-          const entity = await Model.findById(id);
-          if (entity) {
-            res.status(200).send(entity);
-          } else {
-            res.status(404).send({ error: 'Entidade não encontrada' });
-          }
-        } catch (error) {
-            res.status(500).send({ error: error.message });
-        }
-      }
+      const parsedQuery = query ? JSON.parse(query) : {};
+      const projection = fields ? fields.replaceAll(',', ' ') : '';
 
-    // Deletar entidade por ID
-    async deleteByID (req, res){
-        const { entityName, id } = req.params;
+      const Model = await this.getCollection(entityName);
+      const entities = await Model.find(parsedQuery, projection).skip(skip).limit(limit);
 
-        try {
-            const Model = getCollection(entityName);
-            const result = await Model.findByIdAndDelete(id);
-            if (result) {
-                res.status(200).json({ message: 'Entidade removida com sucesso' });
-            }else{
-                return res.status(404).json({ message: 'Entidade não encontrada' });
-            }
-        } catch (error) {
-            res.status(500).send({ error: error.message });
-        }
-    };
-
-    async findByIdAndUpdate(req, res) {
-        const id = req.params.id;
-        const data = req.body;
-    
-        try {
-          const Model = getCollection(entityName);
-          const entity = await Model.findByIdAndUpdate(id, data, { new: true, runValidators: true });
-          if (entity) {
-            res.status(204).end();
-          } else {
-            res.status(404).send({ error: 'Usuário não encontrado' });
-          }
-        } catch (error) {
-          res.status(500).send({ error: error.message });
-        }
+      res.status(200).json(entities);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Erro ao buscar entidades', error });
     }
+  };
+
+  findById = async (req, res) => {
+    try {
+      const { entityName, id } = req.params;
+
+      const Model = await this.getCollection(entityName);
+      const entity = await Model.findById(id);
+
+      if (entity) {
+        res.status(200).json(entity);
+      } else {
+        res.status(404).json({ error: 'Entidade não encontrada' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+  deleteByID = async (req, res) => {
+    const { entityName, id } = req.params;
+
+    try {
+      const Model = await this.getCollection(entityName);
+      const result = await Model.findByIdAndDelete(id);
+
+      if (result) {
+        res.status(200).json({ message: 'Entidade removida com sucesso' });
+      } else {
+        res.status(404).json({ message: 'Entidade não encontrada' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+  findByIdAndUpdate = async (req, res) => {
+    try {
+      const { id, entityName } = req.params;
+      const data = req.body;
+
+      const Model = await this.getCollection(entityName);
+      const entity = await Model.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+
+      if (entity) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
 }
 export default new EntityController();

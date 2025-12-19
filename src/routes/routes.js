@@ -3,9 +3,9 @@ import EntityController from '../app/controllers/EntityController.js';
 
 const router = Router();
 
-router.post('/entities', EntityController.createEntity);
-router.get('/entities/users', EntityController.getEntities);
-router.get('/entities/users/:id', EntityController.findById);
-router.put('/entities/users/:id', EntityController.findByIdAndUpdate);
+router.post('/:entityName', EntityController.createEntity);
+router.get('/:entityName', EntityController.getEntities);
+router.get('/:entityName/:id', EntityController.findById);
+router.put('/:entityName/:id', EntityController.findByIdAndUpdate);
 
 export default router;
